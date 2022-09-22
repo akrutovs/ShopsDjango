@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: database
+    ports:
+      - 8081:5432
+    volumes:
+      - pgdbdata:/var/lib/postgresql/data/
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+volumes:
+  pgdbdata: null
