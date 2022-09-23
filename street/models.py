@@ -6,7 +6,7 @@ from city.models import City
 
 class Street(models.Model):
     name = models.CharField(max_length=150, verbose_name='Название улицы')
-    city_id = models.ForeignKey(City, verbose_name='id города', on_delete=models.CASCADE)
+    city = models.ForeignKey(City, verbose_name='id города', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

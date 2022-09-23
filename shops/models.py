@@ -7,8 +7,8 @@ from street.models import Street
 
 class Shop(models.Model):
     name = models.CharField(max_length=100, verbose_name='Название магазина')
-    city_id = models.ForeignKey(City, verbose_name='id города', on_delete=models.CASCADE)
-    street_id = models.ForeignKey(Street, verbose_name='id улицы', on_delete=models.CASCADE)
+    city = models.ForeignKey(City, verbose_name='id города', on_delete=models.CASCADE)
+    street = models.ForeignKey(Street, verbose_name='id улицы', on_delete=models.CASCADE)
     start_time = models.CharField(verbose_name='Время открытия', max_length=5)
     end_time = models.CharField(verbose_name='Время закрытия', max_length=5)
 
