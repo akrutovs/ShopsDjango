@@ -1,12 +1,21 @@
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from .models import City
 from .serializers import CitySerializer
 
 
-class CityAPIView(generics.ListAPIView):
-    queryset = City.objects.all()
-    serializer_class = CitySerializer
+class CityAPIView(APIView):
+
+    def get(self, request):
+        lst = City.objects.all()
+        return Response({"cities": CitySerializer(lst, many=True).data})
+
+    def post(self, request):
+        serializer = CitySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'post': serializer.data})
 
 
 # Create your views here.
