@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from .models import City
 
 
 # Create your views here.
 def index(request):
-    return HttpResponse("<h4>start page</h4>")
+    return render(request, 'city/index.html', {'title': 'Главная страница'})
 
 
 def show_city(request):
-    pass
+    cities = City.objects.all()
+    return render(request, 'city/city.html', {'title': 'Список городов', 'cities': cities})

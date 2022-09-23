@@ -1,0 +1,12 @@
+{% extends 'city/base.html' %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block body %}
+    {% for el in cities %}
+        <div class="alert alert-warning mt-2">
+            <h3>{{ el.name }}</h3>
+            <h4>{{ el.id }}</h4>
+        </div>
+    {% endfor %}
+{% endblock %}
