@@ -6,7 +6,6 @@ from .serializers import CitySerializer
 
 
 class CityAPIView(APIView):
-
     def get(self, request):
         lst = City.objects.all()
         return Response({"cities": CitySerializer(lst, many=True).data})
