@@ -1,8 +1,13 @@
-from django.urls import path
-from . import views
+from django.urls import path, include
+from .views import *
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'city', CityViewSet)
+print(router.urls)
 
 urlpatterns = [
-    path('', views.index, name='home'),
-    path('city/', views.show_city, name='city'),
-    path('api/v1/city/',views.CityAPIView.as_view(), name='apiCity')
+    path('', index, name='home'),
+    path('city/', show_city, name='city'),
+    path('api/v1/', include(router.urls), name='apiCity')
 ]
