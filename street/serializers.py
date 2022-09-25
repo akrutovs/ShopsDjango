@@ -5,4 +5,4 @@ from .models import Street
 class StreetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Street
-        fields = '__all__'
+        fields = ('name',)
