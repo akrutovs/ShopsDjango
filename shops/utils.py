@@ -1,6 +1,8 @@
 import re
 from django_filters import rest_framework as filters
 from .models import Shop
+from city.models import City
+from street.models import Street
 
 
 def get_hour_and_minute(time):
@@ -25,16 +27,42 @@ def check_data(start_time, end_time, hour_now, minutes_now):
         return 0
 
 
+def add_shop(city_name, street_name, shop_name, start_time, end_time):
+    if City.objects.filter(name=city_name).exists():  # есть город
+        city = City.objects.get(name=city_name)
+        city_id = city.id
+        if Street.objects.filter(name=street_name).exists():  # в городе есть такая улица
+            street = Street.objects.get(name=street_name)
+            if city_id == street.city_id:
+                street_id = street.id
+            else:
+                street = Street.objects.create(name=street_name,
+                                               city=city)  # новая улица  если страя относится к другому
+                street_id = street.id
+        else:
+            street = Street.objects.create(name=street_name,
+                                           city=city)  # новая улица  если страя относится к другому
+            street_id = street.id
+    else:
+        city = City.objects.create(name=city_name)
+        city_id = city.id
+        street = Street.objects.create(name=street_name, city=city)
+        street_id = street.id
+
+    shop = Shop.objects.create(name=shop_name, city=city, street=street, start_time=start_time,
+                               end_time=end_time)
+    return shop.id
+
+
 class CharFilterInFilter(filters.BaseInFilter, filters.CharFilter):
     pass
 
 
 class ShopFilter(filters.FilterSet):
-    name = filters.CharFilter()
     street = CharFilterInFilter(field_name='street__name', lookup_expr='in')
     city = CharFilterInFilter(field_name='city__name', lookup_expr='in')
-    open = CharFilterInFilter()
+    open = filters.CharFilter()
 
     class Meta:
         model = Shop
-        fields = ['name', 'city', 'street', 'open']
+        fields = ['city', 'street', 'open']
