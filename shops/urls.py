@@ -22,10 +22,10 @@ class CustomShopRouter(routers.SimpleRouter):
     ]
 
 
-# router = routers.DefaultRouter()
-# router.register(r'shop', ShopViewSet)
-router = CustomShopRouter()
+router = routers.DefaultRouter()
 router.register(r'shop', ShopViewSet)
+# router = CustomShopRouter()
+# router.register(r'shop', ShopViewSet)
 
 
 urlpatterns = [

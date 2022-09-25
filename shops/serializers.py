@@ -3,7 +3,7 @@ from .models import Shop
 from city.serializers import *
 from street.serializers import *
 from datetime import datetime
-from utils import check_data
+from .utils import check_data
 
 
 class ShopSerializer(serializers.ModelSerializer):

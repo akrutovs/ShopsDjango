@@ -1,4 +1,6 @@
 import re
+from django_filters import rest_framework as filters
+from .models import Shop
 
 
 def get_hour_and_minute(time):
@@ -21,3 +23,18 @@ def check_data(start_time, end_time, hour_now, minutes_now):
         return 1
     else:
         return 0
+
+
+class CharFilterInFilter(filters.BaseInFilter, filters.CharFilter):
+    pass
+
+
+class ShopFilter(filters.FilterSet):
+    name = filters.CharFilter()
+    street = CharFilterInFilter(field_name='street__name', lookup_expr='in')
+    city = CharFilterInFilter(field_name='city__name', lookup_expr='in')
+    open = CharFilterInFilter()
+
+    class Meta:
+        model = Shop
+        fields = ['name', 'city', 'street', 'open']
