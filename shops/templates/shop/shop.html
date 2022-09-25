@@ -1,0 +1,21 @@
+{% extends 'shop/base.html' %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block body %}
+    <h2>Список магазинов</h2>
+    {% if shops %}
+        {% for el,o in shops.items %}
+            <div class="alert alert-warning mt-2">
+                <h3>Название - {{ el.name }}</h3>
+                <h4>Город – {{ el.city.name }}</h4>
+                <h4>Улица – {{ el.street.name }}</h4>
+                <h4>Время открытия – {{ el.start_time }}</h4>
+                <h4>Время закрытия – {{ el.end_time }}</h4>
+                <h4>Открыт сейчас – {{ o }}</h4>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Нет записей</p>
+    {% endif %}
+{% endblock %}

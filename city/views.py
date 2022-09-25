@@ -14,12 +14,12 @@ class CityViewSet(mixins.RetrieveModelMixin,
     queryset = City.objects.all()
     serializer_class = CitySerializer
 
-    #список улиц города
+    # список улиц города
     @action(methods=['get'], detail=True)
     def street(self, request, pk=None):
         try:
             streets = Street.objects.filter(city=pk)
-            return Response({'streets': [s.name for s in streets]}, status = status.HTTP_200_OK)
+            return Response({'streets': [s.name for s in streets]}, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
