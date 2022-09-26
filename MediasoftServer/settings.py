@@ -80,11 +80,15 @@ WSGI_APPLICATION = 'MediasoftServer.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
+#для запуска приложения отдельно от docker
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'database',
+#         'USER': 'postgres',
+#         'PASSWORD': 'postgres',
+#         'HOST': 'localhost',
+#         'PORT': '8081',
 #     }
 # }
 DATABASES = {
@@ -93,10 +97,11 @@ DATABASES = {
         'NAME': 'database',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'localhost',
-        'PORT': '8081',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
+
 
 
 # Password validation
