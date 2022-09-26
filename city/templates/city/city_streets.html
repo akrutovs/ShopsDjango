@@ -3,12 +3,11 @@
     {{ title }}
 {% endblock %}
 {% block body %}
-    <h2>Список городов</h2>
-    {% if cities %}
-        {% for el in cities %}
+    <h2>Список улиц города - {{ city.name }}</h2>
+    {% if streets %}
+        {% for el in streets %}
             <div class="alert alert-warning mt-2">
                 <h3>{{ el.name }}</h3>
-                <h4>{{ el.id }}</h4>
             </div>
         {% endfor %}
     {% else %}

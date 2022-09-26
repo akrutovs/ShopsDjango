@@ -30,5 +30,5 @@ router.register(r'shop', ShopViewSet)
 
 urlpatterns = [
     path('api/v1/', include(router.urls), name='apiShop'),
-    path('shop/',show_shop , name='shop')
+    path('shop/', show_shop, name='shop')
 ]

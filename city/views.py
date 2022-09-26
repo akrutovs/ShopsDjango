@@ -24,10 +24,13 @@ class CityViewSet(mixins.RetrieveModelMixin,
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-def index(request):
-    return render(request, 'city/index.html', {'title': 'Главная страница'})
-
 
 def show_city(request):
     cities = City.objects.order_by('id')
     return render(request, 'city/city.html', {'title': 'Список городов', 'cities': cities})
+
+
+def show_city_streets(request, city_id):
+    city = City.objects.get(id=city_id)
+    streets = Street.objects.filter(city=city_id)
+    return render(request, 'city/city_streets.html', {'title': 'Список улиц города', 'streets': streets, 'city':city})

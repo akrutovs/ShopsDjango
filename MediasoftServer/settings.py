@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'city',
     'street',
     'django_filters',
+    'base',
 
 ]
 
