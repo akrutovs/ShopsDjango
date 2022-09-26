@@ -3,6 +3,14 @@ from django_filters import rest_framework as filters
 from .models import Shop
 from city.models import City
 from street.models import Street
+from datetime import datetime
+
+
+def get_hour_and_minutes_now():
+    current_datetime = datetime.now()
+    hour_now = current_datetime.hour
+    minutes_now = current_datetime.minute
+    return [hour_now, minutes_now]
 
 
 def get_hour_and_minute(time):
@@ -61,8 +69,19 @@ class CharFilterInFilter(filters.BaseInFilter, filters.CharFilter):
 class ShopFilter(filters.FilterSet):
     street = CharFilterInFilter(field_name='street__name', lookup_expr='in')
     city = CharFilterInFilter(field_name='city__name', lookup_expr='in')
-    open = filters.CharFilter()
+    # open = filters.CharFilter()
+    open = filters.NumberFilter(method='open_filter')
 
     class Meta:
         model = Shop
         fields = ['city', 'street', 'open']
+
+    def open_filter(self, queryset, name, value):
+        shops = []
+        [hour_now, minutes_now] = get_hour_and_minutes_now()
+        for shop in queryset.all():
+            if check_data(start_time=shop.start_time, end_time=shop.end_time, hour_now=hour_now,
+                          minutes_now=minutes_now) == value:
+                shops.append(shop.id)
+
+        return queryset.filter(pk__in=shops)
