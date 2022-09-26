@@ -34,7 +34,7 @@ git clone https://github.com/akrutovs/ShopsDjango.git
 ```
 3. Перейдите в каталог проекта и запустите контейнеры:
 ```sh
-docker-compose up --build
+docker-compose up --build -d
 ```
 4. Выполните миграции
 ```sh
@@ -42,7 +42,7 @@ docker-compose run web python manage.py migrate
 ```
 5. Создайте супер пользователя для работы с admin панелью
 ```sh
-docker-compose run web python manage.py createsupeuser
+docker-compose run web python manage.py createsuperuser
 ```
 6. Перейдите по ссылке: (http://127.0.0.1:8000) для взаимодействия с приложением
 7. Перейдите по ссылке: (http://127.0.0.1:8080) для взаимодействия с базой данных (база данных postgresql username=postgres, password=postgres,name_database=database)
