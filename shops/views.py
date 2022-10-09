@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from django.shortcuts import render
 from rest_framework import mixins, status
 from rest_framework.response import Response
@@ -7,8 +6,8 @@ from rest_framework.viewsets import GenericViewSet
 from .models import Shop
 from .serializers import ShopSerializer
 from django_filters.rest_framework import DjangoFilterBackend
-from .utils import ShopFilter, add_shop, check_data, get_hour_and_minutes_now
-
+from .utils import add_shop, check_data, get_hour_and_minutes_now
+from .filters import ShopFilter
 
 # Create your views here.
 class ShopViewSet(mixins.RetrieveModelMixin,
@@ -17,7 +16,6 @@ class ShopViewSet(mixins.RetrieveModelMixin,
     queryset = Shop.objects.all()
     serializer_class = ShopSerializer
     filter_backends = [DjangoFilterBackend]
-    # filter_fields = ['id']
     filterset_class = ShopFilter
 
     def post(self, request):

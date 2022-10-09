@@ -1,6 +1,8 @@
+from django.db.models import Q
 from django_filters import rest_framework as filters
 from .models import Shop
 from datetime import datetime
+
 
 class CharFilterInFilter(filters.BaseInFilter, filters.CharFilter):
     pass
@@ -18,6 +20,6 @@ class ShopFilter(filters.FilterSet):
     def open_filter(self, queryset, name, value):
         time_now = datetime.now().time()
         if value == 0:
-            return queryset.filter(start_time__gt=time_now, end_time__lte=time_now)
+            return queryset.filter(Q(start_time__gt=time_now) | Q(end_time__lte=time_now))
         elif value == 1:
             return queryset.filter(start_time__lte=time_now, end_time__gt=time_now)

@@ -1,5 +1,4 @@
 import re
-from django_filters import rest_framework as filters
 from .models import Shop
 from city.models import City
 from street.models import Street
@@ -60,33 +59,3 @@ def add_shop(city_name, street_name, shop_name, start_time, end_time):
     shop = Shop.objects.create(name=shop_name, city=city, street=street, start_time=start_time,
                                end_time=end_time)
     return shop.id
-
-
-class CharFilterInFilter(filters.BaseInFilter, filters.CharFilter):
-    pass
-
-
-class ShopFilter(filters.FilterSet):
-    street = CharFilterInFilter(field_name='street__name', lookup_expr='in')
-    city = CharFilterInFilter(field_name='city__name', lookup_expr='in')
-    # open = filters.CharFilter()
-    open = filters.NumberFilter(method='open_filter')
-
-    class Meta:
-        model = Shop
-        fields = ['city', 'street', 'open']
-
-    def open_filter(self, queryset, name, value):
-        # shops = []
-        # [hour_now, minutes_now] = get_hour_and_minutes_now()
-        # for shop in queryset.all():
-        #     if check_data(start_time=shop.start_time, end_time=shop.end_time, hour_now=hour_now,
-        #                   minutes_now=minutes_now) == value:
-        #         shops.append(shop.id)
-        #
-        # return queryset.filter(pk__in=shops)
-        time_now = datetime.now().time()
-        if value == 0:
-            return queryset.filter(start_time__gt=time_now, end_time__lte=time_now)
-        elif value == 1:
-            return queryset.filter(start_time__lte=time_now, end_time__gt=time_now)
