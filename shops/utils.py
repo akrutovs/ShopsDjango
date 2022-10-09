@@ -77,11 +77,16 @@ class ShopFilter(filters.FilterSet):
         fields = ['city', 'street', 'open']
 
     def open_filter(self, queryset, name, value):
-        shops = []
-        [hour_now, minutes_now] = get_hour_and_minutes_now()
-        for shop in queryset.all():
-            if check_data(start_time=shop.start_time, end_time=shop.end_time, hour_now=hour_now,
-                          minutes_now=minutes_now) == value:
-                shops.append(shop.id)
-
-        return queryset.filter(pk__in=shops)
+        # shops = []
+        # [hour_now, minutes_now] = get_hour_and_minutes_now()
+        # for shop in queryset.all():
+        #     if check_data(start_time=shop.start_time, end_time=shop.end_time, hour_now=hour_now,
+        #                   minutes_now=minutes_now) == value:
+        #         shops.append(shop.id)
+        #
+        # return queryset.filter(pk__in=shops)
+        time_now = datetime.now().time()
+        if value == 0:
+            return queryset.filter(start_time__gt=time_now, end_time__lte=time_now)
+        elif value == 1:
+            return queryset.filter(start_time__lte=time_now, end_time__gt=time_now)

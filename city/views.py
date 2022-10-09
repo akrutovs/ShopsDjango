@@ -2,15 +2,13 @@ from django.shortcuts import render
 from rest_framework import mixins, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.viewsets import GenericViewSet
+from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from .models import City
 from .serializers import CitySerializer
 from street.models import Street
 
 
-class CityViewSet(mixins.RetrieveModelMixin,
-                  mixins.ListModelMixin,
-                  GenericViewSet):
+class CityViewSet(ModelViewSet):
     queryset = City.objects.all()
     serializer_class = CitySerializer
 
