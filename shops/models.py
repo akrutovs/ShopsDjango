@@ -11,8 +11,6 @@ class Shop(models.Model):
     street = models.ForeignKey(Street, verbose_name='id улицы', on_delete=models.CASCADE)
     start_time = models.TimeField(verbose_name='Время открытия', auto_now=False, auto_now_add=False)
     end_time = models.TimeField(verbose_name='Время закрытия', auto_now=False, auto_now_add=False)
-    # start_time = models.CharField(verbose_name='Время открытия', max_length=5)
-    # end_time = models.CharField(verbose_name='Время закрытия', max_length=5)
 
     def __str__(self):
         return self.name

@@ -6,7 +6,7 @@ from rest_framework.viewsets import GenericViewSet
 from .models import Shop
 from .serializers import ShopSerializer
 from django_filters.rest_framework import DjangoFilterBackend
-from .utils import add_shop, check_data, get_hour_and_minutes_now
+from .utils import add_shop
 from .filters import ShopFilter
 
 # Create your views here.
@@ -35,10 +35,15 @@ class ShopViewSet(mixins.RetrieveModelMixin,
 def show_shop(request):
     s = Shop.objects.all()
     open_field = []
-    [hour_now, minutes_now] = get_hour_and_minutes_now()
     shops = {}
+    time_now = datetime.now().time()
     for el in s:
-        shops[el] = check_data(el.start_time, el.end_time, hour_now, minutes_now)
-        open_field.append(check_data(el.start_time, el.end_time, hour_now, minutes_now))
+        if time_now >= el.start_time and time_now<el.end_time:
+            open_status = 1
+        else:
+            open_status = 0
+        shops[el] = open_status
+        open_field.append(open_status)
+
 
     return render(request, 'shop/shop.html', {'title': 'Cписок магазинов', 'shops': shops})
